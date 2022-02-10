@@ -16,7 +16,7 @@ class UserController {
 
     showr(req, res){
 
-        var users = ["Pedro", "Cinthia", "Felipe"]
+        var users = ["Pedro", "Cinthia", "Felipe", "Luan"]
 
         return res.status(200).json({
             error: false,
