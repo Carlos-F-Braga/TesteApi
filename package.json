@@ -1,0 +1,22 @@
+{
+  "name": "restapi",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.2",
+    "global": "^4.4.0",
+    "yarn": "^1.22.17"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}
