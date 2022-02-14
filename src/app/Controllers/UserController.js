@@ -1,3 +1,6 @@
+const User = require('../Models/User');
+
+
 class UserController {
     index(req, res){
         console.log(req.body);
@@ -23,6 +26,33 @@ class UserController {
             users
         })
     }
+
+    async store(req, res){
+
+
+        //Validação futura       
+
+
+        const { name, email, password } = req.body;
+
+
+        const data = { name, email, password };
+
+
+        await User.create(dados, (err) => {
+            if(err) return res.status(400).json({
+                error: true,
+                message: "Erro ao tentar inserir usuário no MongoDB"
+            })
+
+
+        return res.status(200).json({
+            error: false,
+            message: "Usuário Cadastrado com sucesso"
+        })
+        })
+
+    } 
 }
 
 module.exports = new UserController();
