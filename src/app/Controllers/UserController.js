@@ -2,10 +2,8 @@ const User = require('../Models/User');
 
 
 class UserController {
-    index(req, res){
-        console.log(req.body);
-
-    }
+    
+    /*index(req, res){ console.log(req.body); } */
     
     show(req, res){
 
@@ -36,7 +34,7 @@ class UserController {
         const { name, email, password } = req.body;
 
 
-        const data = { name, email, password };
+        const dados = { name, email, password };
 
 
         await User.create(dados, (err) => {
