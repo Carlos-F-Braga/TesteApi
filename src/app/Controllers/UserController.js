@@ -46,6 +46,15 @@ class UserController {
           //Validação através do YUP schema - Fim   
 
 
+        //Check de se já existe tal email no banco de dados
+        let userExist = await User.findOne({email: req.body.email})
+        if(userExist){
+            return res.status(400).json({
+                error: true,
+                message: "Este usuário já existe!"
+        })
+    }
+
         //Desestruturação dos dados da requisição
         const { name, email, password } = req.body;
 
