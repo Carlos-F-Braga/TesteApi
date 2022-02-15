@@ -1,5 +1,5 @@
 const User = require('../Models/User');
-
+const bcrypt = require('bcryptjs');
 
 class UserController {
     
@@ -34,10 +34,11 @@ class UserController {
         const { name, email, password } = req.body;
 
 
-        const dados = { name, email, password };
+        const data = { name, email, password };
 
+        data.password = await bcrypt.hash(data.password, 8);
 
-        await User.create(dados, (err) => {
+        await User.create(data, (err) => {
             if(err) return res.status(400).json({
                 error: true,
                 message: "Erro ao tentar inserir usuário no MongoDB"
