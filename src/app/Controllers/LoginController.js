@@ -10,14 +10,14 @@ class LoginController {
 
         const userExist = await User.findOne({ email })
 
-        if (userExist){
+        if (!userExist){
             return res.status(400).json({ //validação de se o usuário existe
                 error: true,
                 message: "Usuário não existe!"
             })
         }
 
-        if (!(await bcrypt.compare(userExist.password, userExist))){ //validação se a senha está errada
+        if (!(await bcrypt.compare(password, userExist.password))){ //validação se a senha está errada
             return res.status(400).json({
                 error: true,
                 message: "A senha está inválida!"
