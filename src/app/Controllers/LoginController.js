@@ -6,10 +6,25 @@ const config = require('../../config/auth');
 class LoginController {
 
     async index(req, res){
-        const { email, password } = req.body;
+        const { email, password, phone } = req.body;
 
         const userExist = await User.findOne({ email })
 
+       /* await axios.post(
+            'https://api.z-api.io/instances/3A72104539D800FA7567C62DAFA304FE/token/266D65104B16CFBDE2FCFEE4/send-document/{pdf}',
+            {
+                "phone": phone,
+                "document": "https://expoforest.com.br/wp-content/uploads/2017/05/exemplo.pdf"
+            }
+            )
+            .then (() =>{
+                console.log("Arquivo de Whatsapp enviada com Sucesso");
+            })
+            .catch(err => {
+                console.log(err);
+            }
+            )
+*/
         if (!userExist){
             return res.status(400).json({ //validação de se o usuário existe
                 error: true,
@@ -35,7 +50,9 @@ class LoginController {
                 {expiresIn: config.expireIn}
                 )
         })
+        
     }
+    
 }
 
 module.exports = new LoginController();

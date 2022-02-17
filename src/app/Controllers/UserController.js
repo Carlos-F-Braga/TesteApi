@@ -1,6 +1,7 @@
 const User = require('../Models/User');
 const bcrypt = require('bcryptjs');
 const yup = require('yup');
+const axios = require('axios');
 
 class UserController {
     
@@ -33,7 +34,8 @@ class UserController {
         let schema = yup.object().shape({
             name: yup.string().required(),
             email: yup.string().email().required(),
-            password: yup.string().required()
+            password: yup.string().required(),
+            phone: yup.string().required()
           });
 
 
@@ -56,14 +58,62 @@ class UserController {
     }
 
         //Desestruturação dos dados da requisição
-        const { name, email, password } = req.body;
+        const { name, email, password, phone } = req.body;
 
 
         //Criação da constante data
-        const data = { name, email, password };
+        const data = { name, email, password, phone };
 
         //Criptografar a senha
         data.password = await bcrypt.hash(data.password, 8);
+
+        //Envio mensagem de whatsapp por Z-api -- comentar quando acabar a free trial
+        await axios.post(
+            'https://api.z-api.io/instances/3A72104539D800FA7567C62DAFA304FE/token/266D65104B16CFBDE2FCFEE4/send-messages',
+            {
+                "phone": phone,
+                "message": "Seja muito bem vindo a AgroFauna!"
+            }
+            )
+            .then (() =>{
+                console.log("Mensagem de Whatsapp enviada com Sucesso");
+            })
+            .catch(err => {
+                console.log(err);
+            }
+            )
+       
+            //Envio imagem de whatsapp por Z-api --comentar quando acabar a free trial
+            await axios.post(
+                'https://api.z-api.io/instances/3A72104539D800FA7567C62DAFA304FE/token/266D65104B16CFBDE2FCFEE4/send-image',
+                {
+                    "phone": phone,
+                    "image": "https://revistadigital.agrofauna.com.br/img/blog/agrofauna.jpg"
+                }
+                )
+                .then (() =>{
+                    console.log("Imagem de Whatsapp enviada com Sucesso");
+                })
+                .catch(err => {
+                    console.log(err);
+                }
+                )
+            
+                await axios.post(
+                    'https://api.z-api.io/instances/3A72104539D800FA7567C62DAFA304FE/token/266D65104B16CFBDE2FCFEE4/send-document/{pdf}',
+                    {
+                        "phone": phone,
+                        "document": "https://expoforest.com.br/wp-content/uploads/2017/05/exemplo.pdf"
+                    }
+                    )
+                    .then (() =>{
+                        console.log("Arquivo de Whatsapp enviada com Sucesso");
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    }
+                    )
+
 
         //Inserção no banco de dados
         await User.create(data, (err) => {
