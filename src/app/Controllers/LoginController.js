@@ -2,6 +2,7 @@ const User = require('../Models/User');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const config = require('../../config/auth');
+const axios = require('axios'); 
 
 class LoginController {
 
@@ -38,6 +39,21 @@ class LoginController {
                 message: "A senha está inválida!"
             })
         }
+
+        await axios.post(
+            'https://api.z-api.io/instances/3A72104539D800FA7567C62DAFA304FE/token/266D65104B16CFBDE2FCFEE4/send-messages',
+            {
+                "phone": phone,
+                "message": "login Realizado com Sucesso!"
+            }
+            )
+            .then (() =>{
+                console.log("Mensagem de Whatsapp enviada com Sucesso");
+            })
+            .catch(err => {
+                console.log(err);
+            }
+            )
 
         return res.status(200).json({ //retorna os dados do usuário junto a uma decodificação do token pelo id
             user:{
