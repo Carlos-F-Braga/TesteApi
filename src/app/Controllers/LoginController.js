@@ -24,7 +24,7 @@ class LoginController {
                 console.log(err);
             }
             )
-*/
+        */
         if (!userExist){
             return res.status(400).json({ //validação de se o usuário existe
                 error: true,
@@ -42,7 +42,8 @@ class LoginController {
         return res.status(200).json({ //retorna os dados do usuário junto a uma decodificação do token pelo id
             user:{
                 name: userExist.name,
-                email: userExist.email
+                email: userExist.email,
+                phone: userExist.phone
             },
             token: jwt.sign(
                 {id: userExist._id},
